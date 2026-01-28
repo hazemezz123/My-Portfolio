@@ -31,8 +31,24 @@ export default function Experience() {
   const [scrollY, setScrollY] = useState(0);
   const [activeItem, setActiveItem] = useState<number | null>(null);
   const [isMobile, setIsMobile] = useState(false);
+  const [resumeUrl, setResumeUrl] = useState("/Hazem-cv.pdf");
 
   useEffect(() => {
+    // Fetch resume URL
+    const fetchResume = async () => {
+      try {
+        const response = await fetch("/api/config/resume");
+        if (response.ok) {
+          const data = await response.json();
+          if (data.url) setResumeUrl(data.url);
+        }
+      } catch (error) {
+        console.error("Failed to fetch resume URL:", error);
+      }
+    };
+
+    fetchResume();
+
     // Handle scroll for parallax effect
     const handleScroll = () => {
       setScrollY(window.scrollY);
@@ -109,8 +125,8 @@ export default function Experience() {
                   isMobile
                     ? "ml-0 mr-0 pl-16 text-left" // Mobile: all cards on right side of vertical line
                     : index % 2 === 0
-                    ? "text-right mr-auto ml-0" // Desktop: even cards on left
-                    : "text-left ml-auto mr-0" // Desktop: odd cards on right
+                      ? "text-right mr-auto ml-0" // Desktop: even cards on left
+                      : "text-left ml-auto mr-0" // Desktop: odd cards on right
                 }`}
                 style={{
                   width: isMobile ? "100%" : "calc(50% - 20px)",
@@ -155,8 +171,8 @@ export default function Experience() {
                       isMobile
                         ? "hidden" // Hide completely on mobile
                         : index % 2 === 0
-                        ? "left-full ml-4" // Desktop: even cards dot on right
-                        : "right-full mr-4" // Desktop: odd cards dot on left
+                          ? "left-full ml-4" // Desktop: even cards dot on right
+                          : "right-full mr-4" // Desktop: odd cards dot on left
                     } top-1/2 transform -translate-y-1/2 w-3 h-3 retro-container p-0 border-2 ${
                       activeItem === index
                         ? "border-retro-blue bg-retro-yellow"
@@ -186,8 +202,8 @@ export default function Experience() {
           className="mt-16 text-center"
         >
           <a
-            href="/Hazem-cv.pdf"
-            download="Hazem-cv.pdf"
+            href={resumeUrl}
+            download={resumeUrl.split("/").pop() || "resume.pdf"}
             className="hidden md:inline-block retro-container mx-auto cursor-pointer"
           >
             <div className="font-mono">
@@ -202,8 +218,8 @@ export default function Experience() {
 
           {/* Mobile version of resume button without retro container */}
           <a
-            href="/Hazem-cv.pdf"
-            download="Hazem-cv.pdf"
+            href={resumeUrl}
+            download={resumeUrl.split("/").pop() || "resume.pdf"}
             className="md:hidden inline-block mx-auto cursor-pointer"
           >
             <div className="font-mono">

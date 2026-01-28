@@ -2,13 +2,17 @@
 
 import { m, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
-import { supabase } from "../../lib/supabase";
-import type { GuestbookEntry } from "../../lib/supabase";
 
-// Define a custom error interface to avoid using 'any'
-interface CustomError extends Error {
+interface GuestbookEntry {
+  id?: string;
+  _id?: string;
   name: string;
+  email?: string;
   message: string;
+  location?: string;
+  created_at?: string;
+  createdAt?: string;
+  date?: string;
 }
 
 export default function Guestbook() {
@@ -33,64 +37,32 @@ export default function Guestbook() {
 
   // Fetch guestbook entries when the component mounts
   useEffect(() => {
-    // Don't fetch until component is mounted on client
     if (!isMounted) return;
 
-    // Set current date safely on client-side only
     setCurrentDate(new Date().toISOString().split("T")[0]);
-
-    const fetchEntries = async () => {
-      setIsLoading(true);
-      setError(null);
-
-      try {
-        // First try to get entries from the Supabase database
-        const response = await supabase
-          .from("guestbook")
-          .select("*")
-          .order("created_at", { ascending: false })
-          .limit(20);
-
-        const { data, error: supabaseError } = response || {
-          data: [],
-          error: null,
-        };
-
-        if (supabaseError) {
-          throw new Error(
-            "Error fetching from Supabase: " + supabaseError.message
-          );
-        }
-
-        // Map the data to our GuestbookEntry interface
-        const formattedEntries =
-          data?.map((entry: any) => ({
-            id: entry.id,
-            name: entry.name,
-            email: entry.email,
-            message: entry.message,
-            location: entry.location,
-            created_at: entry.created_at,
-          })) || [];
-
-        setEntries(formattedEntries);
-      } catch (error: unknown) {
-        console.error("Error fetching guestbook entries:", error);
-
-        // Cast to CustomError type for type-safe access
-        const err = error as CustomError;
-
-        setError(`Failed to load guestbook entries: ${err.message}`);
-        setEntries([]);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
     fetchEntries();
   }, [isMounted]);
 
-  // Don't render anything during SSR or until client-side hydration
+  const fetchEntries = async () => {
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      const response = await fetch("/api/guestbook");
+      if (!response.ok) throw new Error("Failed to fetch guestbook entries");
+
+      const data = await response.json();
+      setEntries(data);
+    } catch (error) {
+      console.error("Error fetching guestbook entries:", error);
+      setError("Failed to load guestbook entries. Please try again later.");
+      setEntries([]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Don't render anything during SSR
   if (!isMounted) {
     return (
       <section id="guestbook" className="py-20">
@@ -110,48 +82,12 @@ export default function Guestbook() {
     );
   }
 
-  // Add a retry function
-  const handleRetry = async () => {
-    setIsLoading(true);
-    setError(null);
-
-    try {
-      // Call Supabase directly
-      const { data, error: supabaseError } = await supabase
-        .from("guestbook")
-        .select("*")
-        .order("created_at", { ascending: false })
-        .limit(20);
-
-      if (supabaseError) {
-        throw new Error(
-          "Error fetching from Supabase: " + supabaseError.message
-        );
-      }
-
-      // Map the data to our GuestbookEntry interface
-      const formattedEntries =
-        data?.map((entry) => ({
-          id: entry.id,
-          name: entry.name,
-          email: entry.email,
-          message: entry.message,
-          location: entry.location,
-          created_at: entry.created_at,
-        })) || [];
-
-      setEntries(formattedEntries);
-    } catch (error: unknown) {
-      console.error("Error retrying guestbook fetch:", error);
-      setError("Failed to load guestbook entries. Please try again later.");
-      setEntries([]);
-    } finally {
-      setIsLoading(false);
-    }
+  const handleRetry = () => {
+    fetchEntries();
   };
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     setFormData({
       ...formData,
@@ -165,60 +101,31 @@ export default function Guestbook() {
     setError(null);
 
     try {
-      // Insert the new entry into Supabase
-      const { data, error: insertError } = await supabase
-        .from("guestbook")
-        .insert([
-          {
-            name: formData.name,
-            email: formData.email,
-            message: formData.message,
-            location: formData.location || "",
-            // Supabase will automatically set created_at
-          },
-        ])
-        .select();
+      const response = await fetch("/api/guestbook", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          message: formData.message,
+          location: formData.location || "",
+        }),
+      });
 
-      if (insertError) {
-        throw new Error("Error adding entry: " + insertError.message);
-      }
+      if (!response.ok) throw new Error("Failed to add guestbook entry");
 
-      // Get the inserted entry
-      const newEntry = data?.[0];
-
-      if (!newEntry) {
-        throw new Error("Failed to retrieve the new entry");
-      }
-
-      // Add the new entry to the entries array
-      setEntries([
-        {
-          id: newEntry.id,
-          name: newEntry.name,
-          email: newEntry.email,
-          message: newEntry.message,
-          location: newEntry.location,
-          created_at: newEntry.created_at,
-        },
-        ...entries,
-      ]);
-
-      // Reset the form
+      const newEntry = await response.json();
+      setEntries([newEntry, ...entries]);
       setFormData({ name: "", message: "", location: "", email: "" });
       setShowForm(false);
-    } catch (error: unknown) {
+    } catch (error) {
       console.error("Error adding guestbook entry:", error);
-      const errorMessage =
-        error instanceof Error
-          ? error.message
-          : "Failed to add guestbook entry. Please try again.";
-      setError(errorMessage);
+      setError("Failed to add guestbook entry. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  // Format date to a readable string
   const formatDate = (dateString?: string) => {
     if (!dateString) return "";
     const date = new Date(dateString);
@@ -391,7 +298,7 @@ export default function Guestbook() {
                     </div>
                     <p className="text-xs text-retro-blue">
                       {formatDate(
-                        entry.created_at || entry.createdAt || entry.date
+                        entry.created_at || entry.createdAt || entry.date,
                       )}
                     </p>
                   </div>
