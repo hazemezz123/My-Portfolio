@@ -13,6 +13,15 @@ interface Project {
   image?: string;
 }
 
+interface GuestbookEntry {
+  id: string;
+  name: string;
+  email: string;
+  message: string;
+  location?: string;
+  created_at?: string;
+}
+
 const ADMIN_PASSWORD = process.env.NEXT_PUBLIC_ADMIN_PASSWORD; // Simple password - change this!
 
 export default function AdminPage() {
@@ -34,6 +43,10 @@ export default function AdminPage() {
   const [tagsInput, setTagsInput] = useState("");
   const [resumeUrl, setResumeUrl] = useState("");
   const [isResumeLoading, setIsResumeLoading] = useState(false);
+  const [guestbookEntries, setGuestbookEntries] = useState<GuestbookEntry[]>(
+    [],
+  );
+  const [isLoadingGuestbook, setIsLoadingGuestbook] = useState(false);
 
   // Check for stored auth on mount
   useEffect(() => {
@@ -48,6 +61,7 @@ export default function AdminPage() {
     if (isAuthenticated) {
       fetchProjects();
       fetchResumeConfig();
+      fetchGuestbook();
     }
   }, [isAuthenticated]);
 
@@ -83,6 +97,38 @@ export default function AdminPage() {
       console.error(err);
     } finally {
       setIsResumeLoading(false);
+    }
+  };
+
+  const fetchGuestbook = async () => {
+    setIsLoadingGuestbook(true);
+    try {
+      const response = await fetch("/api/guestbook");
+      if (!response.ok) throw new Error("Failed to fetch guestbook entries");
+      const data = await response.json();
+      setGuestbookEntries(data);
+    } catch (err) {
+      console.error("Failed to load guestbook:", err);
+    } finally {
+      setIsLoadingGuestbook(false);
+    }
+  };
+
+  const handleDeleteGuestbook = async (id: string) => {
+    if (!confirm("Are you sure you want to delete this guestbook entry?"))
+      return;
+
+    try {
+      const response = await fetch(`/api/guestbook?id=${id}`, {
+        method: "DELETE",
+      });
+
+      if (!response.ok) throw new Error("Failed to delete entry");
+
+      await fetchGuestbook();
+    } catch (err) {
+      alert("Failed to delete entry");
+      console.error(err);
     }
   };
 
@@ -450,6 +496,72 @@ export default function AdminPage() {
                 {isResumeLoading ? "SAVING..." : "💾 SAVE RESUME LINK"}
               </button>
             </form>
+          </div>
+        </div>
+
+        {/* Guestbook Section */}
+        <div className="retro-container mb-8">
+          <div className="retro-header flex justify-between items-center">
+            <span>📖 GUESTBOOK ({guestbookEntries.length})</span>
+            <button
+              onClick={fetchGuestbook}
+              className="text-xs bg-retro-purple px-2 py-1 hover:bg-retro-blue transition-colors"
+              disabled={isLoadingGuestbook}
+            >
+              🔄
+            </button>
+          </div>
+
+          <div className="max-h-96 overflow-y-auto">
+            {isLoadingGuestbook && guestbookEntries.length === 0 ? (
+              <div className="p-8 text-center">
+                <div className="retro-loading"></div>
+                <p className="mt-4 text-retro-gray">Loading entries...</p>
+              </div>
+            ) : guestbookEntries.length === 0 ? (
+              <div className="p-8 text-center text-retro-gray">
+                No guestbook entries found.
+              </div>
+            ) : (
+              <div className="divide-y-2 divide-retro-gray">
+                {guestbookEntries.map((entry) => (
+                  <div
+                    key={entry.id}
+                    className="p-4 hover:bg-retro-beige/50 transition-colors"
+                  >
+                    <div className="flex justify-between items-start gap-4">
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2 mb-1">
+                          <span className="font-bold text-retro-purple">
+                            {entry.name}
+                          </span>
+                          <span className="text-xs text-retro-gray">
+                            ({entry.email})
+                          </span>
+                          {entry.location && (
+                            <span className="text-xs bg-retro-gray text-retro-beige px-1 rounded">
+                              📍 {entry.location}
+                            </span>
+                          )}
+                        </div>
+                        <p className="text-sm border-l-2 border-retro-gray pl-2 italic my-2">
+                          "{entry.message}"
+                        </p>
+                        <div className="text-xs text-retro-gray">
+                          🕒 {new Date(entry.created_at || "").toLocaleString()}
+                        </div>
+                      </div>
+                      <button
+                        onClick={() => handleDeleteGuestbook(entry.id)}
+                        className="retro-button text-xs px-2 py-1 bg-red-600 hover:bg-red-700 h-fit"
+                      >
+                        🗑️
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
 

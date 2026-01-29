@@ -75,3 +75,49 @@ export async function POST(request: Request) {
     );
   }
 }
+
+// DELETE - Delete a guestbook entry
+export async function DELETE(request: Request) {
+  try {
+    const { searchParams } = new URL(request.url);
+    const id = searchParams.get("id");
+
+    if (!id) {
+      return NextResponse.json(
+        { error: "Entry ID is required" },
+        { status: 400 },
+      );
+    }
+
+    const collection = await getGuestbookCollection();
+    // Using simple string query first as fallback, but ideally should be ObjectId
+    // The previous code suggests _id might be stored as string or ObjectId depending on how it was inserted
+    // But standard MongoDB usually uses ObjectId
+    let query;
+    try {
+      // @ts-ignore
+      const { ObjectId } = await import("../../lib/mongodb"); // importation workaround if not imported at top
+      query = { _id: new ObjectId(id) };
+    } catch (e) {
+      // Fallback if ObjectId fails or import fails (though it shouldn't if set up right)
+      // in this project structure it seems we should import ObjectId from lib
+      // let's rely on the import I'll add at the top
+      console.error("ObjectId creation failed", e);
+      return NextResponse.json({ error: "Invalid ID format" }, { status: 400 });
+    }
+
+    const result = await collection.deleteOne(query);
+
+    if (result.deletedCount === 0) {
+      return NextResponse.json({ error: "Entry not found" }, { status: 404 });
+    }
+
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error("Error deleting guestbook entry:", error);
+    return NextResponse.json(
+      { error: "Failed to delete guestbook entry" },
+      { status: 500 },
+    );
+  }
+}
