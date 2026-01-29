@@ -1,8 +1,7 @@
 "use client";
 
 import { m } from "framer-motion";
-import { useState, useRef } from "react";
-import emailjs from "@emailjs/browser";
+import { useState } from "react";
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -12,12 +11,11 @@ export default function Contact() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<null | "success" | "error">(
-    null
+    null,
   );
-  const formRef = useRef<HTMLFormElement>(null);
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     setFormData({
       ...formData,
@@ -30,22 +28,18 @@ export default function Contact() {
     setIsSubmitting(true);
     setSubmitStatus(null);
 
-    // Use EmailJS to send form
     try {
-      // Make sure you replace these with your actual EmailJS service ID, template ID, and public key
-      const serviceId =
-        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || "YOUR_SERVICE_ID";
-      const templateId =
-        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || "YOUR_TEMPLATE_ID";
-      const publicKey =
-        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || "YOUR_PUBLIC_KEY";
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
 
-      await emailjs.sendForm(
-        serviceId,
-        templateId,
-        formRef.current!,
-        publicKey
-      );
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
 
       setSubmitStatus("success");
       setFormData({ from_name: "", from_email: "", message: "" });
@@ -155,11 +149,7 @@ export default function Contact() {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            <form
-              ref={formRef}
-              onSubmit={handleSubmit}
-              className="retro-container p-6"
-            >
+            <form onSubmit={handleSubmit} className="retro-container p-6">
               <div className="mb-4">
                 <label
                   htmlFor="from_name"
