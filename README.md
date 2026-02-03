@@ -107,6 +107,9 @@ npm run start
 Create a `.env.local` file in the root directory with the following variables:
 
 ```
+# Site URL (Required for SEO metadata, sitemap, and canonical URLs)
+NEXT_PUBLIC_SITE_URL=https://your-domain.com
+
 # Supabase Configuration (Required for Guestbook functionality)
 NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key

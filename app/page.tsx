@@ -1,3 +1,4 @@
+import Script from "next/script";
 import Navbar from "./components/ui/Navbar";
 import Hero from "./components/sections/Hero";
 import About from "./components/sections/About";
@@ -8,19 +9,82 @@ import Contact from "./components/sections/Contact";
 import Footer from "./components/ui/Footer";
 import Guestbook from "./components/sections/Guestbook";
 
+const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || "https://example.com").replace(
+  /\/$/,
+  "",
+);
+
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "@id": `${siteUrl}/#person`,
+    name: "Hazem Ezz",
+    url: siteUrl,
+    image: `${siteUrl}/images/Hazem.jpg`,
+    jobTitle: "Full Stack Developer",
+    sameAs: [
+      "https://github.com/hazemezz123",
+      "https://www.linkedin.com/in/hazem-ezz-424498285/",
+      "https://www.instagram.com/hazem_ezz_1/",
+      "https://www.facebook.com/profile.php?id=61557867570271",
+    ],
+    knowsAbout: [
+      "Next.js",
+      "React",
+      "TypeScript",
+      "Tailwind CSS",
+      "Framer Motion",
+      "Node.js",
+      "MongoDB",
+      "Web Performance",
+      "UI/UX",
+    ],
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": `${siteUrl}/#website`,
+    name: "Hazem Ezz Portfolio",
+    url: siteUrl,
+    inLanguage: "en",
+    description:
+      "Full stack developer specializing in Next.js, React, Tailwind CSS, and performance-driven web experiences.",
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": `${siteUrl}/#webpage`,
+    url: siteUrl,
+    name: "Hazem Ezz | Full Stack Developer",
+    isPartOf: { "@id": `${siteUrl}/#website` },
+    about: { "@id": `${siteUrl}/#person` },
+    inLanguage: "en",
+    description:
+      "Full stack developer specializing in Next.js, React, Tailwind CSS, and performance-driven web experiences.",
+  },
+];
+
 export default function Home() {
   return (
-    <main>
-      <div className="scanline"></div>
-      <Navbar />
-      <Hero />
-      <About />
-      <Skills />
-      <Projects />
-      <Experience />
-      <Guestbook />
-      <Contact />
-      <Footer />
-    </main>
+    <>
+      <Script
+        id="json-ld"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <main>
+        <div className="scanline"></div>
+        <Navbar />
+        <Hero />
+        <About />
+        <Skills />
+        <Projects />
+        <Experience />
+        <Guestbook />
+        <Contact />
+        <Footer />
+      </main>
+    </>
   );
 }

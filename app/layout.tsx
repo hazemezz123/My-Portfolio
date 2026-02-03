@@ -14,19 +14,69 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || "https://example.com").replace(
+  /\/$/,
+  "",
+);
+
 export const metadata: Metadata = {
-  title: "Hazem's Portfolio",
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: "Hazem Ezz | Full Stack Developer",
+    template: "%s | Hazem Ezz",
+  },
   description:
-    "A high-performance gamer-themed developer portfolio showcasing my skills and projects",
+    "Full stack developer specializing in Next.js, React, Tailwind CSS, and performance-driven web experiences.",
+  applicationName: "Hazem Ezz Portfolio",
   authors: [{ name: "Hazem Ezz" }],
+  creator: "Hazem Ezz",
   keywords: [
-    "developer",
-    "portfolio",
-    "gaming",
-    "web development",
-    "React",
-    "Next.js",
+    "Hazem Ezz",
+    "full stack developer",
+    "Next.js developer",
+    "React developer",
+    "web developer portfolio",
+    "Tailwind CSS",
+    "Framer Motion",
+    "TypeScript",
+    "frontend developer",
   ],
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    title: "Hazem Ezz | Full Stack Developer",
+    description:
+      "Full stack developer specializing in Next.js, React, Tailwind CSS, and performance-driven web experiences.",
+    url: "/",
+    siteName: "Hazem Ezz Portfolio",
+    locale: "en_US",
+    type: "website",
+    images: [
+      {
+        url: "/images/Hazem.jpg",
+        alt: "Hazem Ezz portrait",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Hazem Ezz | Full Stack Developer",
+    description:
+      "Full stack developer specializing in Next.js, React, Tailwind CSS, and performance-driven web experiences.",
+    images: ["/images/Hazem.jpg"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
 };
 
 export default function RootLayout({
