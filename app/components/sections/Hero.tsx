@@ -89,9 +89,9 @@ export default function Hero() {
                   sequence={[
                     "Full Stack Developer",
                     2000,
-                    "Web Designer",
+                    "HITU AI Student",
                     2000,
-                    "UX/UI Enthusiast",
+                    "Scalable Web Solutions",
                     2000,
                   ]}
                   wrapper="span"
@@ -114,9 +114,9 @@ export default function Hero() {
                 transition={{ duration: 0.5, delay: 0.3 }}
                 className="text-retro-gray text-sm sm:text-base mb-6 sm:mb-8 max-w-lg border-l-4 border-retro-green pl-4"
               >
-                Welcome to my digital playground! I craft web experiences that
-                blend creativity with functionality. Let&apos;s build something
-                amazing together.
+                I build responsive, scalable web applications with React,
+                Next.js, Tailwind CSS, and Laravel. I focus on clean UX,
+                reliable integrations, and experiences that feel great to use.
               </m.p>
 
               <m.div

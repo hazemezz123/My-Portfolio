@@ -39,15 +39,15 @@ export default function About() {
                     <div className="grid grid-cols-2 gap-4 text-sm">
                       <div className="text-left">
                         <div>NAME:</div>
-                        <div>OCCUPATION:</div>
-                        <div>AGE:</div>
+                        <div>ROLE:</div>
+                        <div>LOCATION:</div>
                         <div>EDUCATION:</div>
                       </div>
                       <div className="text-right">
-                        <div>HAZEM </div>
-                        <div>PROGRAMMER</div>
-                        <div>18</div>
-                        <div>GRADE 12</div>
+                        <div>HAZEM EZZ</div>
+                        <div>FULL STACK DEV</div>
+                        <div>SUEZ, EGYPT</div>
+                        <div>HITU AI BTECH</div>
                       </div>
                     </div>
                   </div>
@@ -68,16 +68,17 @@ export default function About() {
               </h3>
 
               <p className="text-retro-gray mb-4 border-l-4 border-retro-purple pl-4">
-                I&apos;m a Grade 12 student at We School of Applied Technology
-                in the Programming department. At only 18 years old, I&apos;m
-                passionate about creating interactive web experiences.
+                I&apos;m a full stack developer focused on responsive web
+                application design, service integration, and reliable testing.
+                I build user-friendly experiences with React.js, Tailwind CSS,
+                and Laravel.
               </p>
 
               <p className="text-retro-gray mb-6 border-l-4 border-retro-green pl-4">
-                My expertise includes React.js, PHP, Tailwind CSS, and Framer
-                Motion, with a focus on performance optimization, animations,
-                and building secure systems. I enjoy solving real problems with
-                clean, maintainable code.
+                I&apos;m also a Bachelor of Technology student in Artificial
+                Intelligence at Helwan International Technological University.
+                I enjoy collaborating, mentoring, and building scalable web
+                solutions with clean, maintainable code.
               </p>
 
               <div className="grid grid-cols-2 gap-4 mt-8">
@@ -86,17 +87,17 @@ export default function About() {
                     EDUCATION
                   </h4>
                   <ul className="list-disc list-inside text-retro-gray">
-                    <li>We School of Technology</li>
-                    <li>Programming Department</li>
-                    <li>React.js Workshop Leader</li>
+                    <li>Helwan International Technological University</li>
+                    <li>BTech in Artificial Intelligence</li>
+                    <li>WE School for Applied Technology</li>
                   </ul>
                 </div>
                 <div>
                   <h4 className="text-retro-blue font-bold mb-2">INTERESTS</h4>
                   <ul className="list-disc list-inside text-retro-gray">
-                    <li>Web Development</li>
-                    <li>Performance Optimization</li>
-                    <li>Interactive UI Design</li>
+                    <li>Scalable Web Solutions</li>
+                    <li>Service Integration</li>
+                    <li>Skills Testing</li>
                   </ul>
                 </div>
               </div>

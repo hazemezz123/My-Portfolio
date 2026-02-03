@@ -5,25 +5,32 @@ import { useState, useEffect } from "react";
 
 const experiences = [
   {
-    year: "2024 - Present",
-    title: "Full-Stack Developer (MERN)",
-    company: "Freelancer",
+    year: "Jun 2024 - Present",
+    title: "Frontend Web Developer",
+    company: "Freelance",
     description:
-      "Building high-performance web applications using React.js, Node.js, Express, and MongoDB. Implementing UI/UX animations with Framer Motion and optimizing website performance.",
+      "Designing responsive web applications, integrating services, and shipping user-friendly experiences with React.js, Tailwind CSS, and Laravel.",
   },
   {
-    year: "2023 - 2024",
-    title: "Frontend Developer",
-    company: "Freelancer",
+    year: "Jan 2023 - Present",
+    title: "Freelance Web Developer",
+    company: "Self-Employed",
     description:
-      "Worked on various web projects, focusing on responsive design, React Router, and API integration. Developed e-commerce features and improved accessibility using Tailwind CSS.",
+      "Delivered custom websites for clients, built interactive UI components, and collaborated on requirements and solution planning.",
   },
   {
-    year: "2022 - 2023",
-    title: "Learning Web Development",
-    company: "Self-Learning",
+    year: "Dec 2024 - Jun 2025",
+    title: "Student Mentor",
+    company: "Academic Program",
     description:
-      "Started learning HTML, CSS, and JavaScript. Built small projects to practice frontend development, including landing pages and interactive UI components.",
+      "Led training sessions in React.js, Laravel, testing, PHP, and Node.js while guiding students through project development.",
+  },
+  {
+    year: "Oct 2022 - Jun 2025",
+    title: "Student Lead",
+    company: "WE School for Applied Technology",
+    description:
+      "Coordinated student teams for tech camps and competitions, organized tasks, and fostered collaboration across projects.",
   },
 ];
 

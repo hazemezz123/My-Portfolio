@@ -23,6 +23,14 @@ const jsonLd = [
     url: siteUrl,
     image: `${siteUrl}/images/Hazem.jpg`,
     jobTitle: "Full Stack Developer",
+    description:
+      "Full stack developer and AI student building scalable web solutions with Next.js, React, Tailwind CSS, and Laravel.",
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: "Suez",
+      addressRegion: "As Suways",
+      addressCountry: "EG",
+    },
     sameAs: [
       "https://github.com/hazemezz123",
       "https://www.linkedin.com/in/hazem-ezz-424498285/",
@@ -34,9 +42,11 @@ const jsonLd = [
       "React",
       "TypeScript",
       "Tailwind CSS",
+      "Laravel",
       "Framer Motion",
       "Node.js",
       "MongoDB",
+      "Testing",
       "Web Performance",
       "UI/UX",
     ],
@@ -49,7 +59,7 @@ const jsonLd = [
     url: siteUrl,
     inLanguage: "en",
     description:
-      "Full stack developer specializing in Next.js, React, Tailwind CSS, and performance-driven web experiences.",
+      "Full stack developer and AI student building scalable web solutions with Next.js, React, Tailwind CSS, and Laravel.",
   },
   {
     "@context": "https://schema.org",
@@ -61,7 +71,7 @@ const jsonLd = [
     about: { "@id": `${siteUrl}/#person` },
     inLanguage: "en",
     description:
-      "Full stack developer specializing in Next.js, React, Tailwind CSS, and performance-driven web experiences.",
+      "Full stack developer and AI student building scalable web solutions with Next.js, React, Tailwind CSS, and Laravel.",
   },
 ];
 

@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     template: "%s | Hazem Ezz",
   },
   description:
-    "Full stack developer specializing in Next.js, React, Tailwind CSS, and performance-driven web experiences.",
+    "Full stack developer and AI student building scalable web solutions with Next.js, React, Tailwind CSS, and Laravel.",
   applicationName: "Hazem Ezz Portfolio",
   authors: [{ name: "Hazem Ezz" }],
   creator: "Hazem Ezz",
@@ -37,9 +37,14 @@ export const metadata: Metadata = {
     "React developer",
     "web developer portfolio",
     "Tailwind CSS",
+    "Laravel",
     "Framer Motion",
     "TypeScript",
     "frontend developer",
+    "AI student",
+    "Suez",
+    "Egypt",
+    "HITU",
   ],
   alternates: {
     canonical: "/",
@@ -47,7 +52,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Hazem Ezz | Full Stack Developer",
     description:
-      "Full stack developer specializing in Next.js, React, Tailwind CSS, and performance-driven web experiences.",
+      "Full stack developer and AI student building scalable web solutions with Next.js, React, Tailwind CSS, and Laravel.",
     url: "/",
     siteName: "Hazem Ezz Portfolio",
     locale: "en_US",
@@ -63,7 +68,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Hazem Ezz | Full Stack Developer",
     description:
-      "Full stack developer specializing in Next.js, React, Tailwind CSS, and performance-driven web experiences.",
+      "Full stack developer and AI student building scalable web solutions with Next.js, React, Tailwind CSS, and Laravel.",
     images: ["/images/Hazem.jpg"],
   },
   robots: {

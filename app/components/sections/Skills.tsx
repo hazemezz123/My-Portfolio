@@ -21,6 +21,7 @@ const skillCategories: SkillCategory[] = [
     skills: [
       { name: "React.js", icon: "⚛️", level: 90 },
       { name: "Next.js", icon: "🔼", level: 85 },
+      { name: "TypeScript", icon: "📘", level: 80 },
       { name: "Tailwind CSS", icon: "🌊", level: 85 },
       { name: "HTML5", icon: "💻", level: 95 },
       { name: "CSS3", icon: "🎨", level: 90 },
@@ -32,6 +33,7 @@ const skillCategories: SkillCategory[] = [
     name: "Backend",
     skills: [
       { name: "PHP", icon: "🐘", level: 85 },
+      { name: "Laravel", icon: "🧱", level: 80 },
       { name: "MySQL", icon: "🗃️", level: 80 },
       { name: "Node.js", icon: "🟢", level: 60 },
       { name: "Express", icon: "🚂", level: 60 },
@@ -51,6 +53,9 @@ const skillCategories: SkillCategory[] = [
     name: "Other",
     skills: [
       { name: "Responsive Design", icon: "📱", level: 90 },
+      { name: "Web App Design", icon: "🧭", level: 85 },
+      { name: "Service Integration", icon: "🔗", level: 80 },
+      { name: "Skills Testing", icon: "🧪", level: 75 },
       { name: "Python Applications", icon: "🐍", level: 85 },
       { name: "Performance Opt.", icon: "⚡", level: 70 },
       { name: "Security Basics", icon: "🔒", level: 75 },
